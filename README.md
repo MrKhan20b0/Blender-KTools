@@ -1,2 +1,2 @@
-# Blender-KTools
-Blender addon to make merging sub-meshes to gether for export quicker, and delete hidden vertices for optimization quicker.
+# Blender-KTools (WIP)
+Blender addon to make merging sub-meshes together for export quicker, and delete hidden vertices for optimization quicker.
