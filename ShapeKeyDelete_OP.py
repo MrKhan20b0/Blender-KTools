@@ -76,6 +76,8 @@ class SelectShapeKeyDeleteVerts(bpy.types.Operator):
                 obj.select = False
                 continue
                 
+            if obj.data.shape_keys is None:
+                continue
         
             # Access Basis Shape Key and Verticies
             key_blocks = obj.data.shape_keys.key_blocks

@@ -1,11 +1,11 @@
 import bpy
 
 
-class HelloWorldPanel2(bpy.types.Panel):
+class KToolsDSV(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_category = "KTOOLS"
     bl_label = "KTOOLS-DSV"
-    bl_idname = "OBJECT_PT_hello2"
+    bl_idname = "OBJECT_KT_DSV"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
 
@@ -17,31 +17,58 @@ class HelloWorldPanel2(bpy.types.Panel):
 
         row = layout.row()
         row.scale_y = 1.5
-        row.label(text="Delete-Shapekey-Vertices!", icon='WORLD_DATA')
+        row.label(text="Delete-Shapekey-Vertices!", icon='SHAPEKEY_DATA')
 
-#        row = layout.row()
-#        row.label(text="Active object is: " + obj.name)
-#        row = layout.row()
-#        row.prop(obj, "name")
+        box = layout.box()
+        row = box.row()
+        row.scale_y = 1.5
+        row.operator("object.select_delete_shape_key_vertices", icon='RESTRICT_SELECT_OFF', text="Select Vertices")
+        
+        row = box.row()
+        row.scale_y = 1.0
+        row.operator("object.delete_delete_shape_key_vertices", icon="REMOVE", text="Delete Vertices")
+        row = box.row()
+        row.scale_y = 2.0
+        row.operator("object.delete_from_duplicate_delete_shape_key_vertices", icon='DUPLICATE', text="Delete From Duplicate")
+        
+        
+class KToolsMeshMerge(bpy.types.Panel):
+    """Creates a Panel in the Object properties window"""
+    bl_category = "KTOOLS"
+    bl_label = "KTOOLS-MM"
+    bl_idname = "OBJECT_KT_MM"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+
+
+    def draw(self, context):
+        layout = self.layout
+
+        obj = context.object
 
         row = layout.row()
         row.scale_y = 1.5
-        row.operator("object.select_delete_shape_key_vertices", text="Select Vertices")
-        row = layout.row()
-        row = layout.row()
-        row.scale_y = 1.0
-        row.operator("object.delete_delete_shape_key_vertices", text="Delete Vertices")
-        row = layout.row()
-        row.scale_y = 2.0
-        row.operator("object.delete_from_duplicate_delete_shape_key_vertices", text="Delete Vertices From A Duplicate")
+        row.label(text="Merege Meshes!", icon='MESH_CUBE')
 
+        box = layout.box()
+        row = box.row()
+        
+        row.scale_y = 1.5
+        row.operator("object.merge_tagged_meshes", icon='AUTOMERGE_ON', text="Merge Meshes")
+
+        row = box.row()
+        row.scale_y = 1.5
+        row.operator("object.duplilcate_then_merge_tagged_meshes", icon='DUPLICATE', text="Merge Duplicates")
+        
 
 def register():
-    bpy.utils.register_class(HelloWorldPanel2)
+    bpy.utils.register_class(KToolsDSV)
+    bpy.utils.register_class(KToolsMeshMerge)
 
 
 def unregister():
-    bpy.utils.unregister_class(HelloWorldPanel2)
+    bpy.utils.unregister_class(KToolsDSV)
+    bpy.utils.unregister_class(KToolsMeshMerge)
 
 
 if __name__ == "__main__":
