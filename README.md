@@ -1,6 +1,11 @@
 # Blender-KTools (WIP)
 Blender addon to make merging sub-meshes together for export quicker, and delete hidden vertices for optimization quicker.
-![KTools Panel](/Imgs/KT_PANEL.png?raw=true "KTools Panel")
+
+
+<p align="center">
+  <img src="/Imgs/KT_PANEL.png?raw=true" alt="S/Imgs/KT_PANEL.png?raw=true"/>
+</p>
+
 
 ## Quickly delete vertices defined in delete-shapekeys
 Shapkeys with "DELETE" in their name can be used to specify which vertices to delete frome a mesh. Any vertices moved in this shapekey will be deleted from the mesh.
