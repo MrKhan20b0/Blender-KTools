@@ -18,7 +18,7 @@ class KTDuplicate(bpy.types.Operator):
         
         bpy.ops.object.mode_set(mode='OBJECT')
         
-        
+        # Create duplicates
         new_objs = []
         for src_obj in context.selected_objects:
             if src_obj.type != 'MESH':
@@ -151,13 +151,11 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(SelectShapeKeyDeleteVerts)
-    bpy.utils.register_class(DeleteShapeKeyDeleteVerts)
-    bpy.utils.register_class(KTDuplicate)
+    bpy.utils.unregister_class(DeleteShapeKeyDeleteVerts)
+    bpy.utils.unregister_class(KTDuplicate)
     bpy.types.VIEW3D_MT_object.remove(menu_func)
 
 
 if __name__ == "__main__":
     register()
 
-    # test call
-    bpy.ops.object.select_delete_shape_key_vertices()

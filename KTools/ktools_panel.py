@@ -5,7 +5,7 @@ class KToolsDSV(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_category = "KTOOLS"
     bl_label = "KTOOLS-DSV"
-    bl_idname = "OBJECT_KT_DSV"
+    bl_idname = "OBJECT_KT_DSV_PT_"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
 
@@ -29,14 +29,14 @@ class KToolsDSV(bpy.types.Panel):
         row.operator("object.delete_delete_shape_key_vertices", icon="REMOVE", text="Delete Vertices")
         row = box.row()
         row.scale_y = 2.0
-        row.operator("object.delete_from_duplicate_delete_shape_key_vertices", icon='DUPLICATE', text="Delete From Duplicate")
+        row.operator("object.delete_from_duplicate_delete_shape_key_vertices", icon='DUPLICATE', text="Duplicate Then Delete")
         
         
 class KToolsMeshMerge(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_category = "KTOOLS"
     bl_label = "KTOOLS-MM"
-    bl_idname = "OBJECT_KT_MM"
+    bl_idname = "OBJECT_KT_MM_PT_"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
 
@@ -58,7 +58,7 @@ class KToolsMeshMerge(bpy.types.Panel):
 
         row = box.row()
         row.scale_y = 1.5
-        row.operator("object.duplilcate_then_merge_tagged_meshes", icon='DUPLICATE', text="Merge Duplicates")
+        row.operator("object.duplicate_then_merge_tagged_meshes", icon='DUPLICATE', text="Duplicate Then Merge")
         
 
 def register():
