@@ -8,7 +8,7 @@ Blender addon to make merging sub-meshes together for export quicker, and delete
 
 
 ## Quickly delete vertices defined in delete-shapekeys
-Shapkeys with "DELETE" in their name can be used to specify which vertices to delete frome a mesh. Any vertices moved in this shapekey will be deleted from the mesh.
+Shapkeys with "K_DELETE" in their name can be used to specify which vertices to delete frome a mesh. Any vertices moved in this shapekey will be deleted from the mesh.
 
 This may be done destructivly, or done on duplicates
 
