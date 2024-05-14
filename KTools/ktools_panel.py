@@ -17,7 +17,7 @@ class KToolsDSV(bpy.types.Panel):
 
         row = layout.row()
         row.scale_y = 1.5
-        row.label(text="Delete-Shapekey-Vertices!", icon='SHAPEKEY_DATA')
+        row.label(text="Delete Shapekey Vertices!", icon='SHAPEKEY_DATA')
 
         box = layout.box()
         row = box.row()
@@ -48,7 +48,7 @@ class KToolsMeshMerge(bpy.types.Panel):
 
         row = layout.row()
         row.scale_y = 1.5
-        row.label(text="Merege Meshes!", icon='MESH_CUBE')
+        row.label(text="Merge Meshes!", icon='MESH_CUBE')
 
         box = layout.box()
         row = box.row()
