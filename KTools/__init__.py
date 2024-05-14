@@ -6,8 +6,7 @@ bl_info = {
     "location": "View3D, Mesh",
     "description": "Tools to quickly merge meshes together and delete vertices before export",
     "author": "Mr. Khan",
-    "doc_url": "https://github.com/MrKhan20b0/Blender-KTools",
-  
+    "doc_url": "https://github.com/MrKhan20b0/Blender-KTools"
 }
 
 # Blender imports
