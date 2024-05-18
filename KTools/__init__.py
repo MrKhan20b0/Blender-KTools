@@ -2,7 +2,7 @@ bl_info = {
     "name": "KTools",
     "blender": (4, 0, 0),
     "category": "User Interface",
-    "version": (0, 1, 0, 0),
+    "version": (0, 1, 0, 1),
     "location": "View3D, Mesh",
     "description": "Tools to quickly merge meshes together and delete vertices before export",
     "author": "Mr. Khan",
