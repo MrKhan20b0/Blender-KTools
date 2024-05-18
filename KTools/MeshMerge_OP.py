@@ -153,6 +153,12 @@ class KTCreateMeshGroup(bpy.types.Operator):
         
         # Go through each selected obj and see if they are already part of a group, if so we need to change the group
         for obj in context.selected_objects:
+            
+            # ignore objects that are not meshes
+            if obj.type != "MESH":
+                obj.select_set(False)
+                continue
+            
             matches = re.findall(REG_EXP, obj.name)
             
             # change group name
