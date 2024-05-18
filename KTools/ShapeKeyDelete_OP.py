@@ -1,12 +1,12 @@
 import bpy, bmesh
 
 
-DELETE_KEYWORD = "K_DELETE"
+
 
 class KTDuplicate(bpy.types.Operator):
     """Duplicates an object, then run DeleteShapeKeyDeleteVerts on the duplicate"""
     bl_idname = "object.delete_from_duplicate_delete_shape_key_vertices"
-    bl_label = f"Create Duplicate, Then Delete Vertices Changed in \"{DELETE_KEYWORD}\" shape keys"
+    bl_label = "Create Duplicate, Then Delete Vertices Changed in \"DELETE\" shape keys"
     bl_options = {"REGISTER", "UNDO"}
     
 
@@ -49,9 +49,9 @@ class KTDuplicate(bpy.types.Operator):
 
 
 class SelectShapeKeyDeleteVerts(bpy.types.Operator):
-    """Selects all vertices that differ from the basis in shape keys with K_DELETE in their name."""
+    """Selects all vertices that differ from the basis in shape keys with DELETE in their name."""
     bl_idname = "object.select_delete_shape_key_vertices"
-    bl_label = f"Select Vertices Changed in \"{DELETE_KEYWORD}\" shape keys"
+    bl_label = "Select Vertices Changed in \"DELETE\" shape keys"
     bl_options = {"REGISTER", "UNDO"}
 
     @classmethod
@@ -86,7 +86,7 @@ class SelectShapeKeyDeleteVerts(bpy.types.Operator):
                 for v in sk.data:
                     print(v.co)
                     
-                if DELETE_KEYWORD in sk.name:
+                if "DELETE" in sk.name:
                     delete_shapekeys_found += 1
                     
                     if len(sk.data) != len(obj.data.vertices):
@@ -102,17 +102,16 @@ class SelectShapeKeyDeleteVerts(bpy.types.Operator):
 
   
         if delete_shapekeys_found == 0:
-            self.report({"WARNING"}, f"No shapekeys with \"{DELETE_KEYWORD}\" in name found.")
+            self.report({"WARNING"}, "No shapekeys with \"DELETE\" in name found.")
             return {"CANCELLED"}
             
 
         return {'FINISHED'}
 
-
 class DeleteShapeKeyDeleteVerts(bpy.types.Operator):
-    """Deletes all vertices that differ from the basis in shape keys with K_DELETE in their name."""
+    """Deletes all vertices that differ from the basis in shape keys with DELETE in their name."""
     bl_idname = "object.delete_delete_shape_key_vertices"
-    bl_label = f"Delete Vertices Changed in \"{DELETE_KEYWORD}\" shape keys"
+    bl_label = "Delete Vertices Changed in \"DELETE\" shape keys"
     bl_options = {"REGISTER", "UNDO"}
     
 
@@ -152,11 +151,13 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(SelectShapeKeyDeleteVerts)
-    bpy.utils.unregister_class(DeleteShapeKeyDeleteVerts)
-    bpy.utils.unregister_class(KTDuplicate)
+    bpy.utils.register_class(DeleteShapeKeyDeleteVerts)
+    bpy.utils.register_class(KTDuplicate)
     bpy.types.VIEW3D_MT_object.remove(menu_func)
 
 
 if __name__ == "__main__":
     register()
 
+    # test call
+    bpy.ops.object.select_delete_shape_key_vertices()

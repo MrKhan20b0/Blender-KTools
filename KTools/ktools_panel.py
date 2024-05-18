@@ -1,6 +1,7 @@
 import bpy
 
 
+
 class KToolsDSV(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_category = "KTOOLS"
@@ -17,7 +18,7 @@ class KToolsDSV(bpy.types.Panel):
 
         row = layout.row()
         row.scale_y = 1.5
-        row.label(text="Delete Shapekey Vertices!", icon='SHAPEKEY_DATA')
+        row.label(text="Delete-Shapekey-Vertices!", icon='SHAPEKEY_DATA')
 
         box = layout.box()
         row = box.row()
@@ -48,11 +49,16 @@ class KToolsMeshMerge(bpy.types.Panel):
 
         row = layout.row()
         row.scale_y = 1.5
-        row.label(text="Merge Meshes!", icon='MESH_CUBE')
+        row.label(text="Merege Meshes!", icon='MESH_CUBE')
 
         box = layout.box()
-        row = box.row()
+
         
+        row = box.row()
+        row.scale_y = 1.5
+        row.operator("object.assign_meshes_to_kt_group", icon='GROUP', text="Assign To Group")
+        
+        row = box.row()
         row.scale_y = 1.5
         row.operator("object.merge_tagged_meshes", icon='AUTOMERGE_ON', text="Merge Meshes")
 
@@ -60,11 +66,12 @@ class KToolsMeshMerge(bpy.types.Panel):
         row.scale_y = 1.5
         row.operator("object.duplicate_then_merge_tagged_meshes", icon='DUPLICATE', text="Duplicate Then Merge")
         
+        
 
 def register():
     bpy.utils.register_class(KToolsDSV)
     bpy.utils.register_class(KToolsMeshMerge)
-
+    
 
 def unregister():
     bpy.utils.unregister_class(KToolsDSV)
