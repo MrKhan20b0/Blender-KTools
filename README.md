@@ -13,8 +13,11 @@ Shapkeys with "K_DELETE" in their name can be used to specify which vertices to 
 This may be done destructivly, or done on duplicates
 
 ## Quickly merge meshes together based on name
-Meshes contianing "__MERGE_X" in their name, where X is a alphnumeric character, will be merged together.
+Meshes contianing "_KM_Group" in their name, where "Group" is an alphnumeric string, will be merged together.
 
-For example, cube__MERGE_A & sphere__MERGE_A will be merged together.
+For example, "cube_KM_Pants_Long" & "sphere_KM__KM_Pants_Long" will be merged together and renamed to "Pants_Long"
 
 This may be done destructivly, or done on duplicates
+
+You may quickly change group names or assign group names using "Assign To Group".
+All selected objects will change their group name to the user provided name.
