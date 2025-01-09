@@ -13,7 +13,7 @@ bl_info = {
 import bpy
 
 #from bpy.props import *
-from . import MeshMerge_OP, ktools_panel, ShapeKeyDelete_OP
+from . import MeshMerge_OP, ktools_panel, ShapeKeyDelete_OP, AutoRig_OP
 
 addon_keymaps = []
 
@@ -22,12 +22,14 @@ def register():
     MeshMerge_OP.register()
     ShapeKeyDelete_OP.register()
     ktools_panel.register()
+    AutoRig_OP.register()
 
 def unregister():
 
     MeshMerge_OP.unregister()
     ktools_panel.unregister()
     ShapeKeyDelete_OP.unregister()
+    AutoRig_OP.unregister()
 
 if __name__ == "__main__":
     register()
