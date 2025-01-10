@@ -42,6 +42,8 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
 
         # parent hand/foot to IK bone
         # TODO:
+        last_bone.use_connect = False
+        last_bone.parent = ik_bone
         
         # create pole bone
         mid_bone = sel_bones[1]
@@ -49,29 +51,31 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
         pole_bone.head = (mid_bone.head[0], mid_bone.head[1], mid_bone.head[2])
         pole_bone.tail = (mid_bone.head[0], mid_bone.head[1], mid_bone.head[2] + 10)
         
-        
-        for b in sel_bones:
-            b.select = False
-            
-        mid_bone.select = True
-
 
         bpy.ops.object.mode_set(mode='POSE', toggle=False)
         # add IK constraint
         const = bpy.context.object.pose.bones.get(mid_bone.name).constraints.new("IK")
         print(dir(const))
-        const.subtarget = ik_bone.name
+        const.subtarget = last_bone.name+'_IK'
         const.target = context.active_object
         const.pole_target = context.active_object
-        print("POLE BONE", pole_bone.name)
-        const.pole_subtarget = pole_bone.name
+
+        const.pole_subtarget = last_bone.name+'_IK_POLE'
         const.chain_count = 2
         const.pole_angle = 1.571
-
         
-        # 
-        for bone in bpy.context.active_object.data.edit_bones[:]:
-            print(bone)
+        # add copy location to IK handle constraint
+        const = bpy.context.object.pose.bones.get(last_bone.name).constraints.new("COPY_LOCATION")
+        const.target = const.target = context.active_object
+        const.subtarget = mid_bone.name
+        const.head_tail = 1.0
+        
+        # Color IK bones
+        bpy.context.object.data.bones[last_bone.name+'_IK'].color.palette = 'THEME03'
+        bpy.context.object.data.bones[last_bone.name+'_IK_POLE'].color.palette = 'THEME04'
+
+#        for bone in bpy.context.active_object.data.edit_bones[:]:
+#            print(bone)
         
         #bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
         return {'FINISHED'}
