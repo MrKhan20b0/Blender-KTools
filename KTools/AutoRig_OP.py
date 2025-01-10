@@ -30,21 +30,50 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
         return context.active_object is not None and context.active_object.type == "ARMATURE"
     
     def execute(self, context):
-       
+        armature = context.active_object
+        sel_bones = self.get_selected_edit_bones(context)
+
         # create IK bone
-        
+        last_bone = sel_bones[-1]
+        ik_bone = armature.data.edit_bones.new(last_bone.name+'_IK')
+        ik_bone.head = (last_bone.head[0], last_bone.head[1], last_bone.head[2])
+        ik_bone.tail = (last_bone.head[0], last_bone.head[1], last_bone.head[2] - 10)
+
+
         # parent hand/foot to IK bone
+        # TODO:
         
         # create pole bone
+        mid_bone = sel_bones[1]
+        pole_bone = armature.data.edit_bones.new(last_bone.name+'_IK_POLE')
+        pole_bone.head = (mid_bone.head[0], mid_bone.head[1], mid_bone.head[2])
+        pole_bone.tail = (mid_bone.head[0], mid_bone.head[1], mid_bone.head[2] + 10)
         
         
+        for b in sel_bones:
+            b.select = False
+            
+        mid_bone.select = True
+
+
+        bpy.ops.object.mode_set(mode='POSE', toggle=False)
         # add IK constraint
+        const = bpy.context.object.pose.bones.get(mid_bone.name).constraints.new("IK")
+        print(dir(const))
+        const.subtarget = ik_bone.name
+        const.target = context.active_object
+        const.pole_target = context.active_object
+        print("POLE BONE", pole_bone.name)
+        const.pole_subtarget = pole_bone.name
+        const.chain_count = 2
+        const.pole_angle = 1.571
+
         
         # 
         for bone in bpy.context.active_object.data.edit_bones[:]:
             print(bone)
         
-        bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
+        #bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
         return {'FINISHED'}
     
         
