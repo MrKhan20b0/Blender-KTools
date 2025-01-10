@@ -1,42 +1,95 @@
 import bpy, bmesh, re
+from bpy.props import (StringProperty,
+                       PointerProperty,
+                       )
+                       
+from bpy.types import (Panel,
+                       PropertyGroup,
+                       )
 
+class MyProperties(PropertyGroup):
+    arm_name: StringProperty(
+            name="Foo",
+            description=":",
+            default="howdy",
+            maxlen=1024,
+            )
 
-class KTIK_ARM(bpy.types.Operator):
+class KT_CREATE_LIMB_IK(bpy.types.Operator):
     """todo"""
-    bl_idname = "object.auto_ik_rig"
-    bl_label = "auto ik rig create"
+    bl_idname = "armature.auto_ik_limb"
+    bl_label = "auto ik limb create for 3 bones"
     bl_options = {"REGISTER", "UNDO"}
     
+    
+    def get_selected_edit_bones(self, context):
+        return [bone for bone in bpy.context.active_object.data.edit_bones[:] if bone.select]
 
     @classmethod
     def poll(cls, context):
         return context.active_object is not None and context.active_object.type == "ARMATURE"
     
     def execute(self, context):
-        print("howdy")
-        print(context.active_object.data.edit_bones)
+       
+        # create IK bone
+        
+        # parent hand/foot to IK bone
+        
+        # create pole bone
+        
+        
+        # add IK constraint
+        
+        # 
+        for bone in bpy.context.active_object.data.edit_bones[:]:
+            print(bone)
+        
+        bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
         return {'FINISHED'}
     
         
     def invoke(self, context, event):
+        
+        print(context.selected_objects)
+        
+        bones_selected = self.get_selected_edit_bones(context)
+        
+        print("bones selected")
+        for b in bones_selected:
+            print(b.name, b.parent.name)
+            
+        # only three bones can be selected
+        if len(bones_selected) != 3:
+            self.report({"ERROR"}, "Select only 3 bones")
+            return {"CANCELLED"}
+        
+        # make sure we have a chain of bones, like, arm, forearem, hand
+        if bones_selected[1].parent.name != bones_selected[0].name or bones_selected[2].parent.name != bones_selected[1].name:
+            self.report({"ERROR"}, "Bones must be in a chain")
+            return {"CANCELLED"}
+        
         wm = context.window_manager
         return wm.invoke_confirm(self, event)
 
 
 
 def menu_func(self, context):
-    self.layout.operator(KTIK_ARM.bl_idname, text=KTIK_ARM.bl_label)
+    self.layout.operator(KT_CREATE_LIMB_IK.bl_idname, text=KT_CREATE_LIMB_IK.bl_label)
 
 
 
 # Register and add to the "object" menu (required to also use F3 search "Simple Object Operator" for quick access).
 def register():
-    bpy.utils.register_class(KTIK_ARM)
-    bpy.types.VIEW3D_MT_object.append(menu_func)
+    bpy.utils.register_class(KT_CREATE_LIMB_IK)
+    bpy.types.VIEW3D_MT_edit_armature.append(menu_func)
+    bpy.utils.register_class(MyProperties)
+    bpy.types.Scene.kt_auto_rig_tool = PointerProperty(type=MyProperties)
 
 
 def unregister():
     bpy.utils.unregister_class(KTIK_ARM)
+    bpy.utils.unregister_class(MyProperties)
+    del bpy.types.Scene.kt_auto_rig_tool
 
 
 
