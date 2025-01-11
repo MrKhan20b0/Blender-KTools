@@ -15,6 +15,59 @@ class MyProperties(PropertyGroup):
             maxlen=1024,
             )
             
+def get_selected_edit_bones(context):
+    return [bone for bone in bpy.context.active_object.data.edit_bones[:] if bone.select]
+            
+#class KT_CREATE_Head_IK(bpy.types.Operator):
+#    """todo"""
+#    bl_idname = "armature.auto_ik_spine"
+#    bl_label = "auto ik Neck & Head create"
+#    bl_options = {"REGISTER", "UNDO"}
+#    
+#    
+#    @classmethod
+#    def poll(cls, context):
+#        return context.active_object is not None and context.active_object.type == "ARMATURE"
+#    
+#    def execute(self, context):
+#        
+#        bones_selected = get_selected_edit_bones(context)
+#        
+#        # Create IK Head Handle
+#        
+#        # Create Neck Rotation Driver
+#        
+#        #  
+#        return {'FINISHED'}
+#    
+#        
+#    def invoke(self, context, event):
+#        
+#        print(context.selected_objects)
+#        
+#        bones_selected = get_selected_edit_bones(context)
+#        
+#        print("bones selected")
+#        for b in bones_selected:
+#            if b.parent:
+#                print(b.name, b.parent.name)
+#            
+#        # only two bones can be selected
+#        if len(bones_selected) != 2:
+#            self.report({"ERROR"}, "Select only 2 bones")
+#            return {"CANCELLED"}
+#        
+#        # make sure we have a chain of bones, like, arm, forearem, hand
+#        if bones_selected[1].parent.name != bones_selected[0].name:
+#            self.report({"ERROR"}, "Bones must be in a chain")
+#            return {"CANCELLED"}
+#        
+#        wm = context.window_manager
+#        return wm.invoke_confirm(self, event)
+#    
+#    
+    
+            
 class KT_CREATE_SPINE_IK(bpy.types.Operator):
     """todo"""
     bl_idname = "armature.auto_ik_spine"
@@ -31,7 +84,7 @@ class KT_CREATE_SPINE_IK(bpy.types.Operator):
     
     def execute(self, context):
         armature = context.active_object
-        sel_bones = self.get_selected_edit_bones(context)
+        sel_bones = get_selected_edit_bones(context)
 
         # create IK bone
         last_bone = sel_bones[-1]
@@ -45,9 +98,6 @@ class KT_CREATE_SPINE_IK(bpy.types.Operator):
         handle_bone = armature.data.edit_bones.new(first_bone.name+'_IK')
         handle_bone.head = (first_bone.head[0], first_bone.head[1], first_bone.head[2])
         handle_bone.tail = (first_bone.head[0], first_bone.head[1]+0.2, first_bone.head[2])
-        
-        
-
 
         # parent hand/foot to IK bone
         last_bone.use_connect = False
@@ -110,8 +160,6 @@ class KT_CREATE_SPINE_IK(bpy.types.Operator):
             print(dir(var.targets[0]))
             d.driver.expression = f'{var.name} / 2'
             
-            
-
         return {'FINISHED'}
     
         
@@ -119,7 +167,7 @@ class KT_CREATE_SPINE_IK(bpy.types.Operator):
         
         print(context.selected_objects)
         
-        bones_selected = self.get_selected_edit_bones(context)
+        bones_selected = get_selected_edit_bones(context)
         
         print("bones selected")
         for b in bones_selected:
@@ -146,8 +194,6 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
     
     
-    def get_selected_edit_bones(self, context):
-        return [bone for bone in bpy.context.active_object.data.edit_bones[:] if bone.select]
 
     @classmethod
     def poll(cls, context):
@@ -155,7 +201,7 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
     
     def execute(self, context):
         armature = context.active_object
-        sel_bones = self.get_selected_edit_bones(context)
+        sel_bones = get_selected_edit_bones(context)
 
         # create IK bone
         
@@ -165,7 +211,6 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
         ik_bone.head = (last_bone.head[0], last_bone.head[1], last_bone.head[2])
         ik_bone.tail = (last_bone.head[0], last_bone.head[1]+0.2, last_bone.head[2])
 
-
         # parent hand/foot to IK bone
         last_bone.use_connect = False
         last_bone.parent = ik_bone
@@ -174,7 +219,10 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
         mid_bone = sel_bones[1]
         pole_bone = armature.data.edit_bones.new(last_bone.name+'_IK_POLE')
         pole_bone.head = (mid_bone.head[0], mid_bone.head[1], mid_bone.head[2])
-        pole_bone.tail = (mid_bone.head[0], mid_bone.head[1]-0.2, mid_bone.head[2])
+        if 'arm' in sel_bones[0].name.lower():
+            pole_bone.tail = (mid_bone.head[0], mid_bone.head[1]+0.2, mid_bone.head[2])
+        else:
+            pole_bone.tail = (mid_bone.head[0], mid_bone.head[1]-0.2, mid_bone.head[2])
         
 
         bpy.ops.object.mode_set(mode='POSE', toggle=False)
@@ -206,7 +254,7 @@ class KT_CREATE_LIMB_IK(bpy.types.Operator):
         
         print(context.selected_objects)
         
-        bones_selected = self.get_selected_edit_bones(context)
+        bones_selected = get_selected_edit_bones(context)
         
         print("bones selected")
         for b in bones_selected:
