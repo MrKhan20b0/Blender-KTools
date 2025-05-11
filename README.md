@@ -21,3 +21,6 @@ This may be done destructivly, or done on duplicates
 
 You may quickly change group names or assign group names using "Assign To Group".
 All selected objects will change their group name to the user provided name.
+
+## Quickly set all multiresolution modifiers to highest or lowest level
+Quickly set all selected meshes with multires mods to lowest or highest levels for quick exports of low and high poly versions
