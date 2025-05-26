@@ -2,7 +2,7 @@ bl_info = {
     "name": "KTools",
     "blender": (4, 0, 0),
     "category": "User Interface",
-    "version": (0, 1, 0, 1),
+    "version": (0, 1, 0, 3),
     "location": "View3D, Mesh",
     "description": "Tools to quickly merge meshes together and delete vertices before export",
     "author": "Mr. Khan",
@@ -13,7 +13,8 @@ bl_info = {
 import bpy
 
 #from bpy.props import *
-from . import MeshMerge_OP, ktools_panel, ShapeKeyDelete_OP, AutoRig_OP
+from . import MeshMerge_OP, ktools_panel, ShapeKeyDelete_OP, Multires_Set_Level_OP, AutoRig_OP
+
 
 addon_keymaps = []
 
@@ -23,6 +24,8 @@ def register():
     ShapeKeyDelete_OP.register()
     ktools_panel.register()
     AutoRig_OP.register()
+    Multires_Set_Level_OP.register()
+
 
 def unregister():
 
@@ -30,6 +33,7 @@ def unregister():
     ktools_panel.unregister()
     ShapeKeyDelete_OP.unregister()
     AutoRig_OP.unregister()
+    Multires_Set_Level_OP.unregister()
 
 if __name__ == "__main__":
     register()
